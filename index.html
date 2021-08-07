@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pin Generator</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="pin-generator half-width">
+          <input autocomplete="off" class="form-control" type="text" readonly/>
+          <button onclick="pinGeneration()" class="generate-btn">Generate Pin</button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="input-section half-width">
+          <input autocomplete="off" class="form-control" type="text" readonly/>
+          <div class="numbers">
+            <div class="calc-body">
+              <div class="calc-button-row">
+                <div onclick="digit(event)" class="button">7</div>
+                <div onclick="digit(event)" class="button">8</div>
+                <div onclick="digit(event)" class="button">9</div>
+              </div>
+              <div class="calc-button-row">
+                <div onclick="digit(event)" class="button">4</div>
+                <div onclick="digit(event)" class="button">5</div>
+                <div onclick="digit(event)" class="button">6</div>
+              </div>
+              <div class="calc-button-row">
+                <div onclick="digit(event)" class="button">1</div>
+                <div onclick="digit(event)" class="button">2</div>
+                <div onclick="digit(event)" class="button">3</div>
+              </div>
+              <div class="calc-button-row">
+                <div onclick="clearSingleText()" class="button"><</div>
+                <div onclick="digit(event)" class="button">0</div>
+                <div onclick="clearText()" class="button">C</div>
+              </div>
+              <div>
+                <button onclick="pinMatch(event)" type="submit" class="submit-btn">Submit</button>
+                <p class="action-left"><span id="tryPin">3</span> try left</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="notify-section">
+        <p class="notify notify1">❌ Pin Didn't Match, Please try again</p>
+        <p class="notify notify2">✅ Pin Matched... Secret door is opening for you</p>
+      </div>
+    </div>
+
+    <script>
+        function pinGeneration(){
+            const pin=Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+            document.querySelector(".pin-generator input").value=pin;
+        }
+
+        var num=0;
+        function digit(event){
+            if(document.querySelector(".pin-generator input").value==""){
+              alert("Generate Pin First!!!");
+            }
+            else{
+              num=(parseInt(event.target.innerHTML))+(num*10);
+            document.querySelector(".input-section input").value=num;
+            }
+        }
+
+        function clearText(){
+            const clr=document.querySelector(".input-section input");
+            clr.value="";
+            num=0;
+        }
+        function clearSingleText(){
+          const clr=document.querySelector(".input-section input");
+          var inputNumber=parseInt(clr.value);
+          inputNumber=parseInt(inputNumber/10);
+          num=parseInt(num/10);
+          clr.value=inputNumber;
+        }
+        function pinMatch(){
+          var tryNumber=parseInt(document.getElementById("tryPin").innerText);
+          if(document.querySelector(".pin-generator input").value=="" && tryNumber>0){
+              alert("Generate Pin First!!!");
+            }
+else{
+  const clr=document.querySelector(".input-section input").value;
+          const pin=document.querySelector(".pin-generator input").value;
+          if(clr==pin && tryNumber>0){
+            document.querySelector(".notify-section .notify1").style.visibility="hidden";
+            document.querySelector(".notify-section .notify2").style.visibility="visible";
+            document.querySelector(".pin-generator input").value="";
+            document.querySelector(".input-section input").value="";
+          }
+          else{
+            document.querySelector(".input-section input").value="";
+            num=0;
+            document.querySelector(".notify-section .notify1").style.visibility="visible";
+            document.querySelector(".notify-section .notify2").style.visibility="hidden";
+            tryNumber--;
+            if(tryNumber>=0){
+              if(tryNumber>0){
+                document.getElementById("tryPin").innerText=tryNumber;
+              }
+              else{
+                document.getElementById("tryPin").innerText=tryNumber;
+                event.target.style.backgroundColor="rgb(111, 132, 166)";
+                document.querySelector(".pin-generator input").value="";
+              }
+            }
+          }
+}
+            
+          
+        }
+    </script>
+  </body>
+</html>
