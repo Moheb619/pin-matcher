@@ -93,6 +93,7 @@ input[type="text"] {
   padding: 5px 20px;
   visibility: hidden;
   position: relative;
+  display: inline-block;
 }
 .notify1,
 .notify2 {
