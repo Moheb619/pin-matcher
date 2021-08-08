@@ -62,16 +62,21 @@
 
     <script>
         function pinGeneration(){
-            const pin=Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+            if(parseInt(document.getElementById("tryPin").innerText)>0){
+              const pin=Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
             document.querySelector(".pin-generator input").value=pin;
+            }
+            else{
+              alert("Sorry!! You can't generate any more pin!");
+            }
         }
 
         var num=0;
         function digit(event){
-            if(document.querySelector(".pin-generator input").value==""){
+            if(document.querySelector(".pin-generator input").value=="" && parseInt(document.getElementById("tryPin").innerText)>0 ){
               alert("Generate Pin First!!!");
             }
-            else{
+            else if(parseInt(document.getElementById("tryPin").innerText)>0){
               num=(parseInt(event.target.innerHTML))+(num*10);
             document.querySelector(".input-section input").value=num;
             }
@@ -83,18 +88,20 @@
             num=0;
         }
         function clearSingleText(){
-          const clr=document.querySelector(".input-section input");
+          if(parseInt( document.querySelector(".input-section input").value)>=0){
+            const clr=document.querySelector(".input-section input");
           var inputNumber=parseInt(clr.value);
           inputNumber=parseInt(inputNumber/10);
           num=parseInt(num/10);
           clr.value=inputNumber;
+          }
         }
         function pinMatch(){
           var tryNumber=parseInt(document.getElementById("tryPin").innerText);
           if(document.querySelector(".pin-generator input").value=="" && tryNumber>0){
               alert("Generate Pin First!!!");
             }
-else{
+else if(tryNumber>0){
   const clr=document.querySelector(".input-section input").value;
           const pin=document.querySelector(".pin-generator input").value;
           if(clr==pin && tryNumber>0){
